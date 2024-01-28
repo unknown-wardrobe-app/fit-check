@@ -1,1 +1,6 @@
 click
+google
+grpcio
+grpcio-tools
+protobuf
+pymongo
