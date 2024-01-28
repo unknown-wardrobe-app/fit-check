@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fitcheck_dbal"
+version = "0.0.1"
+description = "A database access layer for the fitcheck backend"
+readme = "README.md"
+requires-python = ">=3.10"
+
+[project.scripts]
+fitcheck-dbal = "fitcheck_dbal.cli:fitcheck_dbal"
