@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+import "userdoc.proto";
+import "requests.proto";
+
+service UserDocumentService {
+    rpc GetUserDocument(QueryForUser) returns (UserDocument);
+    rpc CreateUserDocument(NewUser) returns (UserDocument);
+    //rpc UpdateUserDocument(UserModification) returns (UserDocument);
+    //rpc DeleteUserDocument(RemoveUserRequest) returns (UserDocument);
+  }
