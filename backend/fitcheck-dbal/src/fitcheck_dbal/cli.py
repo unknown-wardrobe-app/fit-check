@@ -6,6 +6,7 @@
 
 import click
 
+
 @click.command()
 def fitcheck_dbal():
     """Entry point to fitcheck-dbal"""
