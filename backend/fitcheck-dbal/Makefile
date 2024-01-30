@@ -1,5 +1,7 @@
 # Makefile for fitcheck-dbal 
 
+GIT_ROOT := $(shell git rev-parse --show-toplevel)
+
 help:
 	@echo "Makefile for fitcheck-dbal. Available targets:"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'	
@@ -56,4 +58,15 @@ bootstrap: venv ## Bootstrap the virtual environment
 	)
 	@$(MAKE) activate
 
+grpc: bootstrap ## Create gRPC tooling for this package
+	[ -d src/fitcheck_dbal/grpc ] || mkdir src/fitcheck_dbal/grpc
+	( \
+		source .venv/bin/activate; \
+		python -m grpc_tools.protoc \
+			-I$(GIT_ROOT)/protobufs/dbal \
+			--python_out=$(GIT_ROOT)/backend/fitcheck-dbal/src/fitcheck_dbal/grpc \
+			--pyi_out=$(GIT_ROOT)/backend/fitcheck-dbal/src/fitcheck_dbal/grpc \
+			--grpc_python_out=$(GIT_ROOT)/backend/fitcheck-dbal/src/fitcheck_dbal/grpc \
+			$(GIT_ROOT)/protobufs/dbal/*.proto; \
+	)
 
