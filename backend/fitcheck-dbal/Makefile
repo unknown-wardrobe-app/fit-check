@@ -59,14 +59,15 @@ bootstrap: venv ## Bootstrap the virtual environment
 	@$(MAKE) activate
 
 grpc: bootstrap ## Create gRPC tooling for this package
-	[ -d src/fitcheck_dbal/grpc ] || mkdir src/fitcheck_dbal/grpc
+	[ -d src/fitcheck_dbal/messages ] || mkdir src/fitcheck_dbal/messages
+	[ -d src/fitcheck-dbal/services ] || mkdir src/fitcheck_dbal/services
 	( \
 		source .venv/bin/activate; \
 		python -m grpc_tools.protoc \
 			-I$(GIT_ROOT)/protobufs/dbal \
-			--python_out=$(GIT_ROOT)/backend/fitcheck-dbal/src/fitcheck_dbal/grpc \
-			--pyi_out=$(GIT_ROOT)/backend/fitcheck-dbal/src/fitcheck_dbal/grpc \
-			--grpc_python_out=$(GIT_ROOT)/backend/fitcheck-dbal/src/fitcheck_dbal/grpc \
+			--python_out=$(GIT_ROOT)/backend/fitcheck-dbal/src/fitcheck_dbal/messages \
+			--pyi_out=$(GIT_ROOT)/backend/fitcheck-dbal/src/fitcheck_dbal/messages \
+			--grpc_python_out=$(GIT_ROOT)/backend/fitcheck-dbal/src/fitcheck_dbal/services \
 			$(GIT_ROOT)/protobufs/dbal/*.proto; \
 	)
 
