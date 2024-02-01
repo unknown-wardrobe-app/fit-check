@@ -2,8 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import requests_pb2 as requests__pb2
-import userdoc_pb2 as userdoc__pb2
+import dbal_pb2 as dbal__pb2
 
 
 class UserDocumentServiceStub(object):
@@ -17,13 +16,13 @@ class UserDocumentServiceStub(object):
         """
         self.GetUserDocument = channel.unary_unary(
                 '/UserDocumentService/GetUserDocument',
-                request_serializer=requests__pb2.QueryForUser.SerializeToString,
-                response_deserializer=userdoc__pb2.UserDocument.FromString,
+                request_serializer=dbal__pb2.QueryForUser.SerializeToString,
+                response_deserializer=dbal__pb2.UserDocument.FromString,
                 )
         self.CreateUserDocument = channel.unary_unary(
                 '/UserDocumentService/CreateUserDocument',
-                request_serializer=requests__pb2.NewUser.SerializeToString,
-                response_deserializer=userdoc__pb2.UserDocument.FromString,
+                request_serializer=dbal__pb2.NewUser.SerializeToString,
+                response_deserializer=dbal__pb2.UserDocument.FromString,
                 )
 
 
@@ -49,13 +48,13 @@ def add_UserDocumentServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'GetUserDocument': grpc.unary_unary_rpc_method_handler(
                     servicer.GetUserDocument,
-                    request_deserializer=requests__pb2.QueryForUser.FromString,
-                    response_serializer=userdoc__pb2.UserDocument.SerializeToString,
+                    request_deserializer=dbal__pb2.QueryForUser.FromString,
+                    response_serializer=dbal__pb2.UserDocument.SerializeToString,
             ),
             'CreateUserDocument': grpc.unary_unary_rpc_method_handler(
                     servicer.CreateUserDocument,
-                    request_deserializer=requests__pb2.NewUser.FromString,
-                    response_serializer=userdoc__pb2.UserDocument.SerializeToString,
+                    request_deserializer=dbal__pb2.NewUser.FromString,
+                    response_serializer=dbal__pb2.UserDocument.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -79,8 +78,8 @@ class UserDocumentService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/UserDocumentService/GetUserDocument',
-            requests__pb2.QueryForUser.SerializeToString,
-            userdoc__pb2.UserDocument.FromString,
+            dbal__pb2.QueryForUser.SerializeToString,
+            dbal__pb2.UserDocument.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -96,7 +95,7 @@ class UserDocumentService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/UserDocumentService/CreateUserDocument',
-            requests__pb2.NewUser.SerializeToString,
-            userdoc__pb2.UserDocument.FromString,
+            dbal__pb2.NewUser.SerializeToString,
+            dbal__pb2.UserDocument.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
