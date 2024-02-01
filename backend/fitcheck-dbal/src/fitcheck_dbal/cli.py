@@ -5,25 +5,33 @@
 """
 
 import click
+import time
 import grpc
-from .grpc.services_pb2_grpc import (
+
+from fitcheck_dbal import UserDocumentController
+from fitcheck_dbal.rpc.dbal_pb2_grpc import (
     add_UserDocumentServiceServicer_to_server,
-    UserDocumentServiceStub
+    UserDocumentServiceStub,
+    NewUser,
+    QueryForUser
 )
-from .grpc.requests_pb2 import NewUser, QueryForUser
 
-import futures
-
-from . import UserDocumentController
+from concurrent import futures
 
 
 @click.command()
-def fitcheck_dbal():
+@click.argument('action')
+def fitcheck_dbal(action):
     """Entry point to fitcheck-dbal"""
-    click.echo('Hello World!')
+    if action == 'serve':
+        serve()
+    elif action == 'request':
+        request()
+    else:
+        click.echo(f"Unknown action: {action}")
+        exit(1)
 
 
-@click.command()
 def serve():
     port = "50051"
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
@@ -34,13 +42,14 @@ def serve():
     server.wait_for_termination()
 
 
-@click.command()
 def request():
     with grpc.insecure_channel("localhost:50051") as channel:
         stub = UserDocumentServiceStub(channel)
         response = stub.CreateUserDocument(
             NewUser(username="johndoe", password="supersecretstring"))
-        print("Client received: " + response.result)
+        print("Client received: ", response.new_user.userid)
+        time.sleep(2)
         response = stub.GetUserDocument(
-            QueryForUser(userid=response.result.userid))
-        print("Client received: " + response.result)
+            QueryForUser(userid=str(response.new_user.userid))
+        )
+        print("Client received: ", response)

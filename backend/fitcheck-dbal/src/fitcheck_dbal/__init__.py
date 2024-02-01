@@ -8,24 +8,30 @@
 import pymongo
 from bson import ObjectId
 
-from .messages.responses_pb2 import CreatedUser, GetUser, QueryError, PutError
-from .messages.userdoc_pb2 import UserDocument
-from .services.services_pb2_grpc import UserDocumentServiceServicer
+from .rpc.dbal_pb2 import CreatedUser, GetUser, QueryError, PutError, UserDocument
+from .rpc.dbal_pb2_grpc import UserDocumentServiceServicer
 
 
 class UserDocumentController(UserDocumentServiceServicer):
 
     def __init__(self):
-        self._db = pymongo.MongoClient("mongodb:127.0.0.1:9000/users")
+        self._db = pymongo.MongoClient("mongodb://127.0.0.1:9000/fitcheck")
 
     def GetUserDocument(self, request, context) -> GetUser:
         try:
-            result = self._db.users.find_one({"_id": ObjectId(request.userid)})
-            return GetUser(user=UserDocument(
-                userid=result['_id'],
-                username=result['username'],
-                password=result['password']
-            ))
+            result = self._db.fitcheck.users.find_one(
+                {"_id": ObjectId(request.userid)}
+            )
+            if result:
+                return GetUser(user=UserDocument(
+                    userid=str(result['_id']),
+                    username=result['username'],
+                    password=result['password']
+                ))
+            return GetUser(
+                err=QueryError.ErrorType.NO_SUCH_USER,
+                detail=f'No such user with ID: {request.userid}'
+            )
         except pymongo.errors.PyMongoError as e:
             return GetUser(err=QueryError(
                 error_type=QueryError.ErrorType.UNSPECIFIED,
@@ -34,7 +40,7 @@ class UserDocumentController(UserDocumentServiceServicer):
 
     def CreateUserDocument(self, request, context) -> CreatedUser:
         try:
-            result = self._db.users.insert_one({
+            result = self._db.fitcheck.users.insert_one({
                 "username": request.username,
                 "password": request.password
             })
