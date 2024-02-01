@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import dbal_pb2 as dbal__pb2
+from .dbal_pb2 import *
 
 
 class UserDocumentServiceStub(object):
@@ -15,15 +15,15 @@ class UserDocumentServiceStub(object):
             channel: A grpc.Channel.
         """
         self.GetUserDocument = channel.unary_unary(
-                '/UserDocumentService/GetUserDocument',
-                request_serializer=dbal__pb2.QueryForUser.SerializeToString,
-                response_deserializer=dbal__pb2.UserDocument.FromString,
-                )
+            '/UserDocumentService/GetUserDocument',
+            request_serializer=QueryForUser.SerializeToString,
+            response_deserializer=GetUser.FromString,
+        )
         self.CreateUserDocument = channel.unary_unary(
-                '/UserDocumentService/CreateUserDocument',
-                request_serializer=dbal__pb2.NewUser.SerializeToString,
-                response_deserializer=dbal__pb2.UserDocument.FromString,
-                )
+            '/UserDocumentService/CreateUserDocument',
+            request_serializer=NewUser.SerializeToString,
+            response_deserializer=CreatedUser.FromString,
+        )
 
 
 class UserDocumentServiceServicer(object):
@@ -46,56 +46,57 @@ class UserDocumentServiceServicer(object):
 
 def add_UserDocumentServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'GetUserDocument': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetUserDocument,
-                    request_deserializer=dbal__pb2.QueryForUser.FromString,
-                    response_serializer=dbal__pb2.UserDocument.SerializeToString,
-            ),
-            'CreateUserDocument': grpc.unary_unary_rpc_method_handler(
-                    servicer.CreateUserDocument,
-                    request_deserializer=dbal__pb2.NewUser.FromString,
-                    response_serializer=dbal__pb2.UserDocument.SerializeToString,
-            ),
+        'GetUserDocument': grpc.unary_unary_rpc_method_handler(
+            servicer.GetUserDocument,
+            request_deserializer=QueryForUser.FromString,
+            response_serializer=GetUser.SerializeToString,
+        ),
+        'CreateUserDocument': grpc.unary_unary_rpc_method_handler(
+            servicer.CreateUserDocument,
+            request_deserializer=NewUser.FromString,
+            response_serializer=CreatedUser.SerializeToString,
+        ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'UserDocumentService', rpc_method_handlers)
+        'UserDocumentService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
-
  # This class is part of an EXPERIMENTAL API.
+
+
 class UserDocumentService(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
     def GetUserDocument(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
+                        target,
+                        options=(),
+                        channel_credentials=None,
+                        call_credentials=None,
+                        insecure=False,
+                        compression=None,
+                        wait_for_ready=None,
+                        timeout=None,
+                        metadata=None):
         return grpc.experimental.unary_unary(request, target, '/UserDocumentService/GetUserDocument',
-            dbal__pb2.QueryForUser.SerializeToString,
-            dbal__pb2.UserDocument.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+                                             QueryForUser.SerializeToString,
+                                             GetUser.FromString,
+                                             options, channel_credentials,
+                                             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def CreateUserDocument(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
+                           target,
+                           options=(),
+                           channel_credentials=None,
+                           call_credentials=None,
+                           insecure=False,
+                           compression=None,
+                           wait_for_ready=None,
+                           timeout=None,
+                           metadata=None):
         return grpc.experimental.unary_unary(request, target, '/UserDocumentService/CreateUserDocument',
-            dbal__pb2.NewUser.SerializeToString,
-            dbal__pb2.UserDocument.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+                                             NewUser.SerializeToString,
+                                             CreatedUser.FromString,
+                                             options, channel_credentials,
+                                             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
