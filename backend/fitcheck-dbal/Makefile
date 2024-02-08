@@ -56,20 +56,7 @@ bootstrap: venv ## Bootstrap the virtual environment
 		pip3 install --require-virtualenv -r requirements.txt; \
 		pip3 install --require-virtualenv -r dev_requirements.txt; \
 		pip3 install --editable . ; \
-		cp $(GIT_ROOT)/backend/fitcheck-dbal/src/fitcheck_dbal/rpc/dbal_pb2.py $(shell find . -type d -name site-packages) ; \
-		cp $(GIT_ROOT)/backend/fitcheck-dbal/src/fitcheck_dbal/rpc/dbal_pb2_grpc.py $(shell find . -type d -name site-packages) ; \
+		cp $(GIT_ROOT)/backend/protobuf/build/dbal_pb2.py $(shell find . -type d -name site-packages) ; \
+		cp $(GIT_ROOT)/backend/protobuf/build/dbal_pb2_grpc.py $(shell find . -type d -name site-packages) ; \
 	)
 	@$(MAKE) activate
-
-grpc: bootstrap ## Create gRPC tooling for this package
-	[ -d src/fitcheck_dbal/rpc ] || mkdir src/fitcheck_dbal/rpc
-	( \
-		source .venv/bin/activate; \
-		python -m grpc_tools.protoc \
-			-I$(GIT_ROOT)/backend/protobuf/ \
-			--python_out=$(GIT_ROOT)/backend/fitcheck-dbal/src/fitcheck_dbal/rpc \
-			--pyi_out=$(GIT_ROOT)/backend/fitcheck-dbal/src/fitcheck_dbal/rpc \
-			--grpc_python_out=$(GIT_ROOT)/backend/fitcheck-dbal/src/fitcheck_dbal/rpc \
-			$(GIT_ROOT)/backend/protobuf/dbal.proto; \
-	)
-
