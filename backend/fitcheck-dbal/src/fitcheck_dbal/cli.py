@@ -9,9 +9,11 @@ import time
 import grpc
 
 from fitcheck_dbal import UserDocumentController
-from fitcheck_dbal.rpc.dbal_pb2_grpc import (
+from dbal_pb2_grpc import (
     add_UserDocumentServiceServicer_to_server,
-    UserDocumentServiceStub,
+    UserDocumentServiceStub
+)
+from dbal_pb2 import (
     NewUser,
     QueryForUser
 )

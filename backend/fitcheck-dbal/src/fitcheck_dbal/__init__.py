@@ -4,12 +4,11 @@
     :module_author: Nathan Mendoza
 """
 
-
 import pymongo
 from bson import ObjectId
 
-from .rpc.dbal_pb2 import CreatedUser, GetUser, QueryError, PutError, UserDocument
-from .rpc.dbal_pb2_grpc import UserDocumentServiceServicer
+from dbal_pb2 import CreatedUser, GetUser, QueryError, PutError, UserDocument
+from dbal_pb2_grpc import UserDocumentServiceServicer
 
 
 class UserDocumentController(UserDocumentServiceServicer):
