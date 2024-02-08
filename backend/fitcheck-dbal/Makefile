@@ -1,6 +1,7 @@
 # Makefile for fitcheck-dbal 
 
 GIT_ROOT := $(shell git rev-parse --show-toplevel)
+#cp $(GIT_ROOT)/backend/protobuf/foreign.py $(shell find . -type d -name site-packages)
 
 help:
 	@echo "Makefile for fitcheck-dbal. Available targets:"
@@ -49,12 +50,14 @@ lint: bootstrap ## Run lint checks on the source directory
 	)
 
 bootstrap: venv ## Bootstrap the virtual environment
-	@( \
+	( \
 		source .venv/bin/activate; \
 		pip install --upgrade pip; \
 		pip3 install --require-virtualenv -r requirements.txt; \
 		pip3 install --require-virtualenv -r dev_requirements.txt; \
 		pip3 install --editable . ; \
+		cp $(GIT_ROOT)/backend/fitcheck-dbal/src/fitcheck_dbal/rpc/dbal_pb2.py $(shell find . -type d -name site-packages) ; \
+		cp $(GIT_ROOT)/backend/fitcheck-dbal/src/fitcheck_dbal/rpc/dbal_pb2_grpc.py $(shell find . -type d -name site-packages) ; \
 	)
 	@$(MAKE) activate
 
