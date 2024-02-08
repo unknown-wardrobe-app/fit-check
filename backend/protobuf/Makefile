@@ -16,10 +16,7 @@ clean-venv: ## Destroy the virtual environment if it exists
 clean-pyc: ## Remove generated python modules
 	rm -rf build
 
-clean-cov: ## Remove code coverage artifacts
-	[ ! -e .coverage ] || rm -f .coverage
-
-clean: clean-venv clean-test clean-pyc clean-cov ## Clean up develepment environment
+clean: clean-venv clean-pyc ## Clean up develepment environment
 
 activate: ## Activate the virtual environment for bootstrapping (does NOT activate for you).
 	@echo 
