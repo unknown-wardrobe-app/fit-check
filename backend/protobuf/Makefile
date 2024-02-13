@@ -1,10 +1,9 @@
-# Makefile for fitcheck-dbal 
+# Makefile for fitcheck_protobuf
 
 GIT_ROOT := $(shell git rev-parse --show-toplevel)
-#cp $(GIT_ROOT)/backend/protobuf/foreign.py $(shell find . -type d -name site-packages)
 
 help:
-	@echo "Makefile for fitcheck-dbal. Available targets:"
+	@echo "Makefile for fitcheck_protobuf. Available targets:"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'	
 
 venv: ## Setup a virtual environment
