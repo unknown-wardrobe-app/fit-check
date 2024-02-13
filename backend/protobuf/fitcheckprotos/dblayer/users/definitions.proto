@@ -1,0 +1,45 @@
+// Protobuf declarations for the user definitions management actions of the dblayer
+
+syntax = "proto3";
+
+package fitcheckprotos.dblayer.users;
+
+import "fitcheckprotos/dblayer/confirmation.proto";
+import "google/protobuf/empty.proto";
+
+/*
+ * The following message declarations are requests for something to be done on the database
+ * The corresponding payload is transferred directly from the deserialized message object into the database
+ * Sanitation, authorization, and other access control is deferred to logical services
+ */
+
+message UserDefinedSize {
+  // Name for the size, unique from within user's collection
+  string size_name = 1;
+  // Value for the size. Can be a shoe size (US8 or UK7) or pant size (LxW) or other way of expressing a size
+  string size_value = 2;
+}
+
+message UserDefinedFabric {
+  // Name for the fabric, unique from within user's collection
+  string fabric_name = 1;
+  // Material composition of the fabric as a mapping
+  map<string, uint32> materials = 2;
+}
+
+message ListUserSizes {
+  repeated UserDefinedSize sizes = 1;
+}
+
+message ListUserFabrics {
+  repeated UserDefinedFabric fabrics = 1;
+}
+
+service UserDefinitionManagement {
+  rpc CreateCustomSize(UserDefinedSize) returns (CollectionModified);
+  rpc CreateCustomFabric(UserDefinedFabric) returns (CollectionModified);
+  rpc DeleteCustomSize(UserDefinedSize) returns (CollectionModified);
+  rpc DeleteCustomFabric(UserDefinedFabric) returns (CollectionModified);
+  rpc GetUserFabrics(google.protobuf.Empty) returns (ListUserFabrics);
+  rpc GetUserSizes(google.protobuf.Empty) returns (ListUserSizes);
+}

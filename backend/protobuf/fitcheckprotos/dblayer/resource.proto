@@ -1,0 +1,11 @@
+// Protobuf declarations for referencing resources with a unique identifier
+
+syntax = "proto3";
+
+package fitcheckprotos.dblayer;
+
+message DocumentIdentifier {
+    // The document's unique id. The should be a unique field in a document
+    // Within messages, the string representation is used to. To interact with the database, the field must be converted appropriately
+    string id = 1;
+}

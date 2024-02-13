@@ -1,0 +1,16 @@
+// Protobuf declaration for confirmation actions done by the database
+
+syntax = "proto3";
+
+package fitcheckprotos.dblayer;
+
+
+message ActionCompleted {
+  // Boolean value indicating a action was performed on the db side
+  bool complete = 1;
+}
+
+message CollectionModified {
+  // Integer is a collection of object was changed
+  uint32 item_count = 1;
+}
