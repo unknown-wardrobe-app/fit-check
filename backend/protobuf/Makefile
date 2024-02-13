@@ -39,10 +39,12 @@ grpc: bootstrap ## Create gRPC tooling for package
 	( \
 		source .venv/bin/activate; \
 		python -m grpc_tools.protoc \
-			-I$(GIT_ROOT)/backend/protobuf/protos \
+			-I$(GIT_ROOT)/backend/protobuf/ \
 			--python_out=$(GIT_ROOT)/backend/protobuf/build \
 			--pyi_out=$(GIT_ROOT)/backend/protobuf/build \
 			--grpc_python_out=$(GIT_ROOT)/backend/protobuf/build \
-			$(GIT_ROOT)/backend/protobuf/protos/*.proto; \
+			$(GIT_ROOT)/backend/protobuf/fitcheck/dblayer/*.proto \
+			$(GIT_ROOT)/backend/protobuf/fitcheck/dblayer/users/*.proto; \
 	)
+
 
