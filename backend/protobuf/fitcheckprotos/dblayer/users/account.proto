@@ -4,6 +4,9 @@ syntax = "proto3";
 
 package fitcheckprotos.dblayer.users;
 
+import "fitcheckprotos/dblayer/resource.proto";
+import "fitcheckprotos/dblayer/confirmation.proto";
+
 /*
  * The following message declarations are requests for something to be done on the database
  * The corresponding payload is transferred directly from the deserialized message object into the database
@@ -17,31 +20,20 @@ message CreateAccount {
   string password = 2;
 }
 
-message DeleteAccount {
-  // The unique identifier of the account to be deleted
-  string userid = 1;
-}
-
-message GetBasicAccountDetails {
-  // The unique identifier of the account whose information is to be retrieved
-  string userid = 1;
-}
-
-message GetAuthenticationDetails {
-  // The unique identifier of the account whose authentication details is to be retrieved
-  string userid = 1;
+message UserId {
+  DocumentIdentifier user = 1;
 }
 
 message UpdateAccountUsername {
   // The unique identifer of the account whose username will be updated
-  string userid = 1;
+  UserId doc = 1;
   // The username to replace the current one
   string new_username = 2;
   }
 
 message UpdateAccountAvatar {
   // The unique identifier of the account whose avatar (location) will be updated
-  string userid = 1;
+  UserId doc = 1;
   // The hostname of the server where the avatar image is located
   string new_host = 2;
   // The resource path of which the avatar image is located within the host server
@@ -50,7 +42,7 @@ message UpdateAccountAvatar {
 
 message UpdateAccountPassword {
   // The unique identifier of the account whose password will be updated
-  string userid = 1;
+  UserId doc = 1;
   // The (already hashed and salted) password to replace the current one
   string new_password = 2;
   }
@@ -62,17 +54,7 @@ message UpdateAccountPassword {
  * If action failed to complete, message field retain their default values and the context of the message should be handled appropriately
  */
 
-message AccountCreated {
-    // The new unique identifier for the new account. Empty if the account was not created
-    string new_userid = 1;
-}
-
-message AccountDeleted {
-    // Boolean value indicating if the deletion was done. True if yes, False otherwise
-    bool was_deleted = 1;
-}
-
-message GotBasicAccountDetails {
+message BasicAccountDetails {
   // Username of the requested account
   string username = 1;
   // Hostname of the server hosting the user's avatar
@@ -81,34 +63,17 @@ message GotBasicAccountDetails {
   string avatar_path = 3;
 }
 
-message GotAuthenticationDetails {
-  // The unique identifier of the account whose password (see below) can be used for authentication
-  string userid = 1;
+message AuthenticationDetails {
   // The (already hashed and salted) password that can authenticate the above userid.
-  string password = 2;
-}
-
-message AccountUsernameUpdated {
-  // Boolean value indicating if the update was performed
-  bool was_updated = 1;
-}
-
-message AccountAvatarUpdated {
-  // Boolean value indicating if the update was performed
-  bool was_updated = 1;
-}
-
-message AccountPasswordUpdated {
-  // Boolean value indicating if the update was performed
-  bool was_updated = 1;
+  string password = 1;
 }
 
 service AccountManagement {
-  rpc NewAccount(CreateAccount) returns (AccountCreated);
-  rpc CloseAccount(DeleteAccount) returns (AccountDeleted);
-  rpc GetDetails(GetBasicAccountDetails) returns (GotBasicAccountDetails);
-  rpc GetAuth(GetAuthenticationDetails) returns (GotAuthenticationDetails);
-  rpc UpdateUsername(UpdateAccountUsername) returns (AccountUsernameUpdated);
-  rpc UpdateAvatar(UpdateAccountAvatar) returns (AccountAvatarUpdated);
-  rpc UpdatePassword(UpdateAccountPassword) returns (AccountPasswordUpdated);
+  rpc NewAccount(CreateAccount) returns (ActionCompleted);
+  rpc CloseAccount(UserId) returns (ActionCompleted);
+  rpc GetDetails(UserId) returns (BasicAccountDetails);
+  rpc GetAuth(UserId) returns (AuthenticationDetails);
+  rpc UpdateUsername(UpdateAccountUsername) returns (ActionCompleted);
+  rpc UpdateAvatar(UpdateAccountAvatar) returns (ActionCompleted);
+  rpc UpdatePassword(UpdateAccountPassword) returns (ActionCompleted);
 }

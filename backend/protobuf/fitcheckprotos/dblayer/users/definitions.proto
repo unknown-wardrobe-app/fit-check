@@ -5,7 +5,7 @@ syntax = "proto3";
 package fitcheckprotos.dblayer.users;
 
 import "fitcheckprotos/dblayer/confirmation.proto";
-import "google/protobuf/empty.proto";
+import "fitcheckprotos/dblayer/resource.proto";
 
 /*
  * The following message declarations are requests for something to be done on the database
@@ -40,6 +40,6 @@ service UserDefinitionManagement {
   rpc CreateCustomFabric(UserDefinedFabric) returns (CollectionModified);
   rpc DeleteCustomSize(UserDefinedSize) returns (CollectionModified);
   rpc DeleteCustomFabric(UserDefinedFabric) returns (CollectionModified);
-  rpc GetUserFabrics(google.protobuf.Empty) returns (ListUserFabrics);
-  rpc GetUserSizes(google.protobuf.Empty) returns (ListUserSizes);
+  rpc GetUserFabrics(DocumentIdentifier) returns (ListUserFabrics);
+  rpc GetUserSizes(DocumentIdentifier) returns (ListUserSizes);
 }

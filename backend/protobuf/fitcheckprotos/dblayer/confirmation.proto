@@ -11,6 +11,6 @@ message ActionCompleted {
 }
 
 message CollectionModified {
-  // Integer is a collection of object was changed
+  // Indicates a collection of object was changed
   uint32 item_count = 1;
 }
