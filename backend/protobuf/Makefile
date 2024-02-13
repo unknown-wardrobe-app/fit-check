@@ -43,8 +43,8 @@ grpc: bootstrap ## Create gRPC tooling for package
 			--python_out=$(GIT_ROOT)/backend/protobuf/build \
 			--pyi_out=$(GIT_ROOT)/backend/protobuf/build \
 			--grpc_python_out=$(GIT_ROOT)/backend/protobuf/build \
-			$(GIT_ROOT)/backend/protobuf/fitcheck/dblayer/*.proto \
-			$(GIT_ROOT)/backend/protobuf/fitcheck/dblayer/users/*.proto; \
+			$(GIT_ROOT)/backend/protobuf/fitcheckprotos/dblayer/*.proto \
+			$(GIT_ROOT)/backend/protobuf/fitcheckprotos/dblayer/users/*.proto; \
 	)
 
 
