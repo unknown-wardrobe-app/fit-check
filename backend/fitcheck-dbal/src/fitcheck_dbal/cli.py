@@ -7,11 +7,20 @@
 import click
 
 
-@click.command()
-@click.argument('action')
-def fitcheck_dbal(action):
+@click.group()
+def fitcheck_dbal():
     """Entry point to fitcheck-dbal"""
     pass
+
+
+@fitcheck_dbal.command()
+def hello():
+    click.echo('Hello!')
+
+
+@fitcheck_dbal.command()
+def goodbye():
+    click.echo('Goodbye!')
 
 
 '''
