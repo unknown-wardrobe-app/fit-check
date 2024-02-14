@@ -56,7 +56,6 @@ bootstrap: venv ## Bootstrap the virtual environment
 		pip3 install --require-virtualenv -r requirements.txt; \
 		pip3 install --require-virtualenv -r dev_requirements.txt; \
 		pip3 install --editable . ; \
-		cp $(GIT_ROOT)/backend/protobuf/build/dbal_pb2.py $(shell find . -type d -name site-packages) ; \
-		cp $(GIT_ROOT)/backend/protobuf/build/dbal_pb2_grpc.py $(shell find . -type d -name site-packages) ; \
+		cp -r $(GIT_ROOT)/backend/protobuf/build/fitcheckprotos $(shell find . -type d -name site-packages) ; \
 	)
 	@$(MAKE) activate
