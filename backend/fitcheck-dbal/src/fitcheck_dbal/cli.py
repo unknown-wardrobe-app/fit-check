@@ -5,35 +5,16 @@
 """
 
 import click
-import time
-import grpc
-
-from fitcheck_dbal import UserDocumentController
-from dbal_pb2_grpc import (
-    add_UserDocumentServiceServicer_to_server,
-    UserDocumentServiceStub
-)
-from dbal_pb2 import (
-    NewUser,
-    QueryForUser
-)
-
-from concurrent import futures
 
 
 @click.command()
 @click.argument('action')
 def fitcheck_dbal(action):
     """Entry point to fitcheck-dbal"""
-    if action == 'serve':
-        serve()
-    elif action == 'request':
-        request()
-    else:
-        click.echo(f"Unknown action: {action}")
-        exit(1)
+    pass
 
 
+'''
 def serve():
     port = "50051"
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
@@ -55,3 +36,4 @@ def request():
             QueryForUser(userid=str(response.new_user.userid))
         )
         print("Client received: ", response)
+'''

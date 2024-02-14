@@ -4,6 +4,8 @@
     :module_author: Nathan Mendoza
 """
 
+
+'''
 import pymongo
 from bson import ObjectId
 
@@ -53,3 +55,4 @@ class UserDocumentController(UserDocumentServiceServicer):
                 error_type=PutError.ErrorType.UNSPECIFIED,
                 detail=str(e)
             ))
+'''
