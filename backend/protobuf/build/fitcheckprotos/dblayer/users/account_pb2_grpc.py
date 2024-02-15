@@ -18,7 +18,7 @@ class AccountManagementStub(object):
         self.NewAccount = channel.unary_unary(
                 '/fitcheckprotos.dblayer.users.AccountManagement/NewAccount',
                 request_serializer=fitcheckprotos_dot_dblayer_dot_users_dot_account__pb2.CreateAccount.SerializeToString,
-                response_deserializer=fitcheckprotos_dot_dblayer_dot_confirmation__pb2.ActionCompleted.FromString,
+                response_deserializer=fitcheckprotos_dot_dblayer_dot_users_dot_account__pb2.UserId.FromString,
                 )
         self.CloseAccount = channel.unary_unary(
                 '/fitcheckprotos.dblayer.users.AccountManagement/CloseAccount',
@@ -103,7 +103,7 @@ def add_AccountManagementServicer_to_server(servicer, server):
             'NewAccount': grpc.unary_unary_rpc_method_handler(
                     servicer.NewAccount,
                     request_deserializer=fitcheckprotos_dot_dblayer_dot_users_dot_account__pb2.CreateAccount.FromString,
-                    response_serializer=fitcheckprotos_dot_dblayer_dot_confirmation__pb2.ActionCompleted.SerializeToString,
+                    response_serializer=fitcheckprotos_dot_dblayer_dot_users_dot_account__pb2.UserId.SerializeToString,
             ),
             'CloseAccount': grpc.unary_unary_rpc_method_handler(
                     servicer.CloseAccount,
@@ -158,7 +158,7 @@ class AccountManagement(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/fitcheckprotos.dblayer.users.AccountManagement/NewAccount',
             fitcheckprotos_dot_dblayer_dot_users_dot_account__pb2.CreateAccount.SerializeToString,
-            fitcheckprotos_dot_dblayer_dot_confirmation__pb2.ActionCompleted.FromString,
+            fitcheckprotos_dot_dblayer_dot_users_dot_account__pb2.UserId.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
