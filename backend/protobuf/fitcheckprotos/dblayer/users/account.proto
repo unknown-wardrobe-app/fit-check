@@ -69,7 +69,7 @@ message AuthenticationDetails {
 }
 
 service AccountManagement {
-  rpc NewAccount(CreateAccount) returns (ActionCompleted);
+  rpc NewAccount(CreateAccount) returns (UserId);
   rpc CloseAccount(UserId) returns (ActionCompleted);
   rpc GetDetails(UserId) returns (BasicAccountDetails);
   rpc GetAuth(UserId) returns (AuthenticationDetails);
