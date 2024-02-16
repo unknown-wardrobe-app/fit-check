@@ -8,7 +8,16 @@ import click
 import grpc
 from concurrent import futures
 import fitcheckprotos.dblayer.users.account_pb2_grpc as fitcheckaccountservice
-from fitcheckprotos.dblayer.users.account_pb2 import CreateAccount
+from fitcheckprotos.dblayer.users.account_pb2 import (
+    CreateAccount,
+    UpdateAccountUsername,
+    UpdateAccountPassword,
+    UpdateAccountAvatar,
+    UserId,
+    BasicAccountDetails,
+    AuthenticationDetails
+)
+from fitcheckprotos.dblayer.resource_pb2 import DocumentIdentifier
 
 from .servicers import FitcheckAccountManagementServicer
 
@@ -44,3 +53,16 @@ def makeuser(username, password):
             password=password
         ))
         print(f"New user ID: {response.user.id}")
+
+
+@fitcheck_dbal.command()
+@click.option('--userid', required=True)
+@click.option('-n', '--name', required=True)
+def changeusername(userid, name):
+    with grpc.insecure_channel("localhost:50051") as channel:
+        stub = fitcheckaccountservice.AccountManagementStub(channel)
+        response = stub.UpdateUsername(UpdateAccountUsername(
+            doc=UserId(user=DocumentIdentifier(id=userid)),
+            new_username=name
+        ))
+        print(f'User {userid} had their username updated: {response.complete}')
